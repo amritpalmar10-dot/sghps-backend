@@ -96,8 +96,7 @@ class _PrincipalAddEventState extends State<PrincipalAddEvent> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/events'),
+        Uri.parse('https://sghps-backend.onrender.com/api/events'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -191,7 +190,7 @@ class _PrincipalAddEventState extends State<PrincipalAddEvent> {
       if (_isEditing) {
         response = await http.put(
           Uri.parse(
-              'https://organised-petition-telecharger-saints.trycloudflare.com/api/events/${widget.eventId}'),
+              'https://sghps-backend.onrender.com/api/events/${widget.eventId}'),
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
@@ -200,8 +199,7 @@ class _PrincipalAddEventState extends State<PrincipalAddEvent> {
         );
       } else {
         response = await http.post(
-          Uri.parse(
-              'https://organised-petition-telecharger-saints.trycloudflare.com/api/events/create'),
+          Uri.parse('https://sghps-backend.onrender.com/api/events/create'),
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',

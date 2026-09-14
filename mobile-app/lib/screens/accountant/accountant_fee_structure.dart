@@ -31,7 +31,7 @@ class _AccountantFeeStructureState extends State<AccountantFeeStructure> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/fee-structure'),
+            'https://sghps-backend.onrender.com/api/accountant/fee-structure'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -172,7 +172,7 @@ class _AccountantFeeStructureState extends State<AccountantFeeStructure> {
     try {
       final response = await http.put(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/fee-structure'),
+            'https://sghps-backend.onrender.com/api/accountant/fee-structure'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

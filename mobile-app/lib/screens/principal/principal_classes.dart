@@ -29,8 +29,7 @@ class _PrincipalClassesState extends State<PrincipalClasses> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/principal/classes'),
+        Uri.parse('https://sghps-backend.onrender.com/api/principal/classes'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

@@ -53,7 +53,7 @@ class _StudentHomeworkCalendarState extends State<StudentHomeworkCalendar> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/homework-calendar?month=$_selectedMonth&year=$_selectedYear'),
+            'https://sghps-backend.onrender.com/api/students/homework-calendar?month=$_selectedMonth&year=$_selectedYear'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

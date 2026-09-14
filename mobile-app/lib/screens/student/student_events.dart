@@ -32,8 +32,7 @@ class _StudentEventsState extends State<StudentEvents> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/events'),
+        Uri.parse('https://sghps-backend.onrender.com/api/events'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

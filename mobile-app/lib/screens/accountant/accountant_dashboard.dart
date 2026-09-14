@@ -35,8 +35,7 @@ class _AccountantDashboardState extends State<AccountantDashboard> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/stats'),
+        Uri.parse('https://sghps-backend.onrender.com/api/accountant/stats'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

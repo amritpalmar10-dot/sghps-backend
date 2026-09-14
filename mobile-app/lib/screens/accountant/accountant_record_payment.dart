@@ -69,8 +69,7 @@ class _AccountantRecordPaymentState extends State<AccountantRecordPayment> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/students'),
+        Uri.parse('https://sghps-backend.onrender.com/api/accountant/students'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -118,7 +117,7 @@ class _AccountantRecordPaymentState extends State<AccountantRecordPayment> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/student/$studentId'),
+            'https://sghps-backend.onrender.com/api/accountant/student/$studentId'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -209,8 +208,7 @@ class _AccountantRecordPaymentState extends State<AccountantRecordPayment> {
       final token = prefs.getString('token');
 
       final response = await http.post(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/payment'),
+        Uri.parse('https://sghps-backend.onrender.com/api/accountant/payment'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

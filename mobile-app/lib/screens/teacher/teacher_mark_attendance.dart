@@ -40,7 +40,7 @@ class _TeacherMarkAttendanceState extends State<TeacherMarkAttendance> {
       // 1. Check incharge info
       final checkResponse = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/check-incharge'),
+            'https://sghps-backend.onrender.com/api/teacher/check-incharge'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -75,7 +75,7 @@ class _TeacherMarkAttendanceState extends State<TeacherMarkAttendance> {
     try {
       final attResponse = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/attendance/by-date?date=$today&class=$_inchargeClass&section=$_inchargeSection'),
+            'https://sghps-backend.onrender.com/api/attendance/by-date?date=$today&class=$_inchargeClass&section=$_inchargeSection'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -112,7 +112,7 @@ class _TeacherMarkAttendanceState extends State<TeacherMarkAttendance> {
   Future<void> _loadStudentsForMarking(String token) async {
     final studentsResponse = await http.get(
       Uri.parse(
-          'https://organised-petition-telecharger-saints.trycloudflare.com/api/principal/class/$_inchargeClass/$_inchargeSection'),
+          'https://sghps-backend.onrender.com/api/principal/class/$_inchargeClass/$_inchargeSection'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -164,7 +164,7 @@ class _TeacherMarkAttendanceState extends State<TeacherMarkAttendance> {
     try {
       final response = await http.post(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/mark-attendance'),
+            'https://sghps-backend.onrender.com/api/teacher/mark-attendance'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

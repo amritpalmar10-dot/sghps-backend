@@ -67,8 +67,7 @@ class _AccountantAddStudentState extends State<AccountantAddStudent> {
       final token = prefs.getString('token');
 
       final response = await http.post(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/student'),
+        Uri.parse('https://sghps-backend.onrender.com/api/accountant/student'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

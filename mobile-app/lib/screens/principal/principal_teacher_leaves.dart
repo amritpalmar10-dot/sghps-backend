@@ -30,7 +30,7 @@ class _PrincipalTeacherLeavesState extends State<PrincipalTeacherLeaves> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/principal/teacher-leaves'),
+            'https://sghps-backend.onrender.com/api/principal/teacher-leaves'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -55,7 +55,7 @@ class _PrincipalTeacherLeavesState extends State<PrincipalTeacherLeaves> {
     try {
       final response = await http.put(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/principal/teacher-leave/$leaveId'),
+            'https://sghps-backend.onrender.com/api/principal/teacher-leave/$leaveId'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

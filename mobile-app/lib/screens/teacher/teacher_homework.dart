@@ -46,8 +46,7 @@ class _TeacherHomeworkState extends State<TeacherHomework>
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/homework'),
+        Uri.parse('https://sghps-backend.onrender.com/api/teacher/homework'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -76,7 +75,7 @@ class _TeacherHomeworkState extends State<TeacherHomework>
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/homework-history'),
+            'https://sghps-backend.onrender.com/api/teacher/homework-history'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -225,7 +224,7 @@ class _TeacherHomeworkState extends State<TeacherHomework>
 
                 final response = await http.post(
                   Uri.parse(
-                      'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/homework'),
+                      'https://sghps-backend.onrender.com/api/teacher/homework'),
                   headers: {
                     'Authorization': 'Bearer $token',
                     'Content-Type': 'application/json',

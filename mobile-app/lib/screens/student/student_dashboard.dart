@@ -31,8 +31,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/profile'),
+        Uri.parse('https://sghps-backend.onrender.com/api/students/profile'),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode == 200) {

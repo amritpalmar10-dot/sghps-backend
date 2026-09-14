@@ -29,8 +29,7 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/auth/student/login'),
+        Uri.parse('https://sghps-backend.onrender.com/api/auth/student/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'admission_no': _admissionController.text,
@@ -75,8 +74,7 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
     });
     try {
       final response = await http.post(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/auth/verify-otp'),
+        Uri.parse('https://sghps-backend.onrender.com/api/auth/verify-otp'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'userId': _userId, 'otp': _otpController.text}),
       );

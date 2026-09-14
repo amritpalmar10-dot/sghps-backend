@@ -41,7 +41,7 @@ class _AccountantPendingDuesState extends State<AccountantPendingDues> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/pending-dues'),
+            'https://sghps-backend.onrender.com/api/accountant/pending-dues'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

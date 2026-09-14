@@ -32,8 +32,7 @@ class _TeacherEventsState extends State<TeacherEvents> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/events'),
+        Uri.parse('https://sghps-backend.onrender.com/api/events'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -108,8 +107,7 @@ class _TeacherEventsState extends State<TeacherEvents> {
 
     try {
       final response = await http.delete(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/events/$eventId'),
+        Uri.parse('https://sghps-backend.onrender.com/api/events/$eventId'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -271,7 +269,7 @@ class _TeacherEventsState extends State<TeacherEvents> {
 
                 final response = await http.post(
                   Uri.parse(
-                      'https://organised-petition-telecharger-saints.trycloudflare.com/api/events/create'),
+                      'https://sghps-backend.onrender.com/api/events/create'),
                   headers: {
                     'Authorization': 'Bearer $token',
                     'Content-Type': 'application/json',

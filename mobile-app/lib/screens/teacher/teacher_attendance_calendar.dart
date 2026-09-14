@@ -53,7 +53,7 @@ class _TeacherAttendanceCalendarState extends State<TeacherAttendanceCalendar> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/check-incharge'),
+            'https://sghps-backend.onrender.com/api/teacher/check-incharge'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -84,7 +84,7 @@ class _TeacherAttendanceCalendarState extends State<TeacherAttendanceCalendar> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/attendance/class-stats?class=$_inchargeClass&section=$_inchargeSection&month=$_selectedMonth&year=$_selectedYear'),
+            'https://sghps-backend.onrender.com/api/attendance/class-stats?class=$_inchargeClass&section=$_inchargeSection&month=$_selectedMonth&year=$_selectedYear'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

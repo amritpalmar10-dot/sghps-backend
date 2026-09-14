@@ -47,7 +47,7 @@ class _PrincipalClassDetailState extends State<PrincipalClassDetail>
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/principal/class/${widget.className}/${widget.section}'),
+            'https://sghps-backend.onrender.com/api/principal/class/${widget.className}/${widget.section}'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

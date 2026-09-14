@@ -22,6 +22,14 @@ class _StudentHomeworkState extends State<StudentHomework>
   bool _isLoadingToday = true;
   bool _isLoadingHistory = true;
 
+  // ✅ HELPER: Safe int conversion (String ya int dono handle karda)
+  int _toInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value.toString()) ?? 0;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +46,7 @@ class _StudentHomeworkState extends State<StudentHomework>
 
   // ✅ TODAY'S HOMEWORK
   Future<void> _fetchTodayHomework() async {
-    setState(() => _isLoadingToday = true);
+    if (mounted) setState(() => _isLoadingToday = true);
 
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -46,28 +54,29 @@ class _StudentHomeworkState extends State<StudentHomework>
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/homework'),
+        Uri.parse('https://sghps-backend.onrender.com/api/students/homework'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        setState(() {
-          _todayHomework = data['homework'] ?? [];
-          _isLoadingToday = false;
-        });
+        if (mounted) {
+          setState(() {
+            _todayHomework = data['homework'] ?? [];
+            _isLoadingToday = false;
+          });
+        }
       } else {
-        setState(() => _isLoadingToday = false);
+        if (mounted) setState(() => _isLoadingToday = false);
       }
     } catch (e) {
-      setState(() => _isLoadingToday = false);
+      if (mounted) setState(() => _isLoadingToday = false);
     }
   }
 
   // ✅ HOMEWORK HISTORY
   Future<void> _fetchHistoryHomework() async {
-    setState(() => _isLoadingHistory = true);
+    if (mounted) setState(() => _isLoadingHistory = true);
 
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -76,21 +85,23 @@ class _StudentHomeworkState extends State<StudentHomework>
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/homework-history'),
+            'https://sghps-backend.onrender.com/api/students/homework-history'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        setState(() {
-          _historyHomework = data['homework'] ?? [];
-          _isLoadingHistory = false;
-        });
+        if (mounted) {
+          setState(() {
+            _historyHomework = data['homework'] ?? [];
+            _isLoadingHistory = false;
+          });
+        }
       } else {
-        setState(() => _isLoadingHistory = false);
+        if (mounted) setState(() => _isLoadingHistory = false);
       }
     } catch (e) {
-      setState(() => _isLoadingHistory = false);
+      if (mounted) setState(() => _isLoadingHistory = false);
     }
   }
 
@@ -102,7 +113,7 @@ class _StudentHomeworkState extends State<StudentHomework>
     try {
       final response = await http.post(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/homework/$homeworkId/submit'),
+            'https://sghps-backend.onrender.com/api/students/homework/$homeworkId/submit'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -172,6 +183,12 @@ class _StudentHomeworkState extends State<StudentHomework>
       return const Center(child: CircularProgressIndicator());
     }
 
+    // ✅ SAFE COUNT
+    final pendingCount =
+        _todayHomework.where((h) => _toInt(h['is_submitted']) == 0).length;
+    final submittedCount =
+        _todayHomework.where((h) => _toInt(h['is_submitted']) > 0).length;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -234,7 +251,7 @@ class _StudentHomeworkState extends State<StudentHomework>
               Expanded(
                 child: _statCard(
                   'Pending',
-                  '${_todayHomework.where((h) => (h['is_submitted'] ?? 0) == 0).length}',
+                  '$pendingCount',
                   Icons.pending,
                   const Color(0xFFF59E0B),
                 ),
@@ -243,7 +260,7 @@ class _StudentHomeworkState extends State<StudentHomework>
               Expanded(
                 child: _statCard(
                   'Submitted',
-                  '${_todayHomework.where((h) => (h['is_submitted'] ?? 0) > 0).length}',
+                  '$submittedCount',
                   Icons.check_circle,
                   const Color(0xFF16A34A),
                 ),
@@ -308,7 +325,8 @@ class _StudentHomeworkState extends State<StudentHomework>
             )
           else
             ..._todayHomework.map((h) {
-              final isSubmitted = (h['is_submitted'] ?? 0) > 0;
+              // ✅ SAFE COMPARISON
+              final isSubmitted = _toInt(h['is_submitted']) > 0;
               final color = isSubmitted
                   ? const Color(0xFF16A34A)
                   : const Color(0xFFF59E0B);
@@ -405,7 +423,7 @@ class _StudentHomeworkState extends State<StudentHomework>
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
-                          onPressed: () => _submitHomework(h['id']),
+                          onPressed: () => _submitHomework(_toInt(h['id'])),
                           icon: const Icon(Icons.check, size: 18),
                           label: const Text('Mark as Submitted'),
                           style: ElevatedButton.styleFrom(
@@ -559,7 +577,8 @@ class _StudentHomeworkState extends State<StudentHomework>
                 ),
                 // Homework items
                 ...items.map((h) {
-                  final isSubmitted = (h['is_submitted'] ?? 0) > 0;
+                  // ✅ SAFE COMPARISON — eh line bug fix aa
+                  final isSubmitted = _toInt(h['is_submitted']) > 0;
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: 8),

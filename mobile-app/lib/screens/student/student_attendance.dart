@@ -49,8 +49,7 @@ class _StudentAttendanceState extends State<StudentAttendance>
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/attendance'),
+        Uri.parse('https://sghps-backend.onrender.com/api/students/attendance'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -89,8 +88,7 @@ class _StudentAttendanceState extends State<StudentAttendance>
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/attendance'),
+        Uri.parse('https://sghps-backend.onrender.com/api/students/attendance'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

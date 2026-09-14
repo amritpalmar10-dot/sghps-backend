@@ -31,8 +31,7 @@ class _PrincipalDashboardState extends State<PrincipalDashboard> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/principal/stats'),
+        Uri.parse('https://sghps-backend.onrender.com/api/principal/stats'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

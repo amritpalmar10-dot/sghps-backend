@@ -39,8 +39,7 @@ class _AccountantTeachersState extends State<AccountantTeachers> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/teachers'),
+        Uri.parse('https://sghps-backend.onrender.com/api/accountant/teachers'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

@@ -53,7 +53,7 @@ class _StudentAttendanceCalendarState extends State<StudentAttendanceCalendar> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/students/attendance-calendar?month=$_selectedMonth&year=$_selectedYear'),
+            'https://sghps-backend.onrender.com/api/students/attendance-calendar?month=$_selectedMonth&year=$_selectedYear'),
         headers: {'Authorization': 'Bearer $token'},
       );
 

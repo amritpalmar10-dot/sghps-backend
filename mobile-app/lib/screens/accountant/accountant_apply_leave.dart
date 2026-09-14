@@ -45,7 +45,7 @@ class _AccountantApplyLeaveState extends State<AccountantApplyLeave> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/my-leaves'),
+            'https://sghps-backend.onrender.com/api/accountant/my-leaves'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -97,7 +97,7 @@ class _AccountantApplyLeaveState extends State<AccountantApplyLeave> {
 
       final response = await http.post(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/accountant/apply-leave'),
+            'https://sghps-backend.onrender.com/api/accountant/apply-leave'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

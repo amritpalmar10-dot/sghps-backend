@@ -44,8 +44,7 @@ class _TeacherApplyLeaveState extends State<TeacherApplyLeave> {
 
     try {
       final response = await http.get(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/my-leaves'),
+        Uri.parse('https://sghps-backend.onrender.com/api/teacher/my-leaves'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -96,8 +95,7 @@ class _TeacherApplyLeaveState extends State<TeacherApplyLeave> {
       final token = prefs.getString('token');
 
       final response = await http.post(
-        Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/apply-leave'),
+        Uri.parse('https://sghps-backend.onrender.com/api/teacher/apply-leave'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

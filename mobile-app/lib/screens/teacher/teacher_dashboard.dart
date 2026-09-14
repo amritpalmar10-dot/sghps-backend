@@ -38,7 +38,7 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://organised-petition-telecharger-saints.trycloudflare.com/api/teacher/check-incharge'),
+            'https://sghps-backend.onrender.com/api/teacher/check-incharge'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
