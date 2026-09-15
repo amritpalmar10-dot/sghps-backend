@@ -99,7 +99,6 @@ jobs:
           param flutter_version  "$IN_FLUTTER_VERSION" '.flutter.version' ''
           param jdk_version      "$IN_JDK_VERSION" '.kmp.jdkVersion' '17'
 
-      # ✅ FIX 1: Project root calculate karo (ios_path da parent)
       - name: Compute project root
         id: root
         env:
@@ -128,7 +127,6 @@ jobs:
           restore-keys: |
             deriveddata-
 
-      # ✅ FIX 2: Project type detection sahi folder ch
       - name: Detect project type
         id: detect
         env:
@@ -221,8 +219,7 @@ jobs:
           channel: stable
           cache: true
 
-      # ✅ FIX 3: Flutter pub get sahi folder ch
-            - name: Flutter pub get
+      - name: Flutter pub get
         if: steps.detect.outputs.type == 'flutter'
         env:
           PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
@@ -231,8 +228,7 @@ jobs:
           cd "$GITHUB_WORKSPACE/$PROJECT_ROOT"
           flutter pub get
 
-      # ✅ FIX 4: SPM disable karo
-           - name: Disable Swift Package Manager
+      - name: Disable Swift Package Manager
         if: steps.detect.outputs.type == 'flutter'
         env:
           PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
@@ -241,8 +237,7 @@ jobs:
           cd "$GITHUB_WORKSPACE/$PROJECT_ROOT"
           flutter config --no-enable-swift-package-manager || true
 
-      # ✅ FIX 5: Flutter pod install sahi folder ch + SPM package remove
-              - name: Flutter pod install
+      - name: Flutter pod install
         if: steps.detect.outputs.type == 'flutter'
         env:
           IOS_PATH: ${{ steps.params.outputs.ios_path }}
@@ -328,7 +323,6 @@ jobs:
           echo "DEVELOPMENT_TEAM=$TEAM_ID" >> $GITHUB_ENV
           echo "PROVISIONING_PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
 
-      # ✅ FIX 6: Build IPA sahi folder ch
       - name: Build IPA
         env:
           BUILD_ID: ${{ steps.params.outputs.build_id }}
