@@ -23,7 +23,8 @@ class _AccountantLoginScreenState extends State<AccountantLoginScreen> {
     });
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.31.27:5001/api/auth/accountant/login'),
+        Uri.parse(
+            'https://sghps-backend.onrender.com/api/auth/accountant/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'accountant_code': _codeController.text,

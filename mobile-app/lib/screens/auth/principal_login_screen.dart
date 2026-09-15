@@ -23,7 +23,8 @@ class _PrincipalLoginScreenState extends State<PrincipalLoginScreen> {
     });
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.31.27:5001/api/auth/principal/login'),
+        Uri.parse(
+            'https://sghps-backend.onrender.com/api/auth/principal/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'principal_code': _codeController.text,

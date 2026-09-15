@@ -23,7 +23,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
     });
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.31.27:5001/api/auth/teacher/login'),
+        Uri.parse('https://sghps-backend.onrender.com/api/auth/teacher/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'staff_code': _codeController.text,

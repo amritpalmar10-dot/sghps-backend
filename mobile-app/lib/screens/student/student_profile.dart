@@ -25,7 +25,7 @@ class _StudentProfileState extends State<StudentProfile> {
     final token = prefs.getString('token');
     try {
       final response = await http.get(
-        Uri.parse('http://192.168.31.27:5001/api/students/profile'),
+        Uri.parse('https://sghps-backend.onrender.com/api/students/profile'),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode == 200) {
