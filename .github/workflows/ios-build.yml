@@ -99,6 +99,21 @@ jobs:
           param flutter_version  "$IN_FLUTTER_VERSION" '.flutter.version' ''
           param jdk_version      "$IN_JDK_VERSION" '.kmp.jdkVersion' '17'
 
+      # ✅ FIX 1: Project root calculate karo (ios_path da parent)
+      - name: Compute project root
+        id: root
+        env:
+          IOS_PATH: ${{ steps.params.outputs.ios_path }}
+        run: |
+          set -e
+          if [ "$IOS_PATH" = "." ] || [ "$IOS_PATH" = "./" ]; then
+            PROJECT_ROOT="."
+          else
+            PROJECT_ROOT=$(dirname "$IOS_PATH" | sed 's|/ios$||')
+          fi
+          echo "project_root=$PROJECT_ROOT" >> "$GITHUB_OUTPUT"
+          echo "Project root: $PROJECT_ROOT"
+
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -113,20 +128,25 @@ jobs:
           restore-keys: |
             deriveddata-
 
+      # ✅ FIX 2: Project type detection sahi folder ch
       - name: Detect project type
         id: detect
+        env:
+          PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
         run: |
-          if [ -f "pubspec.yaml" ]; then
+          set -e
+          if [ -f "${PROJECT_ROOT}/pubspec.yaml" ]; then
             echo "type=flutter" >> $GITHUB_OUTPUT
-          elif [ -f "package.json" ] && grep -q '"expo"' package.json; then
+          elif [ -f "${PROJECT_ROOT}/package.json" ] && grep -q '"expo"' "${PROJECT_ROOT}/package.json"; then
             echo "type=expo" >> $GITHUB_OUTPUT
-          elif [ -f "package.json" ] && grep -q '"react-native"' package.json; then
+          elif [ -f "${PROJECT_ROOT}/package.json" ] && grep -q '"react-native"' "${PROJECT_ROOT}/package.json"; then
             echo "type=reactnative" >> $GITHUB_OUTPUT
-          elif grep -rqlE 'kotlin\("multiplatform"\)|org\.jetbrains\.kotlin\.multiplatform|id\("org.jetbrains.kotlin.multiplatform"\)' --include='*.gradle.kts' --include='*.gradle' --include='libs.versions.toml' . 2>/dev/null; then
+          elif grep -rqlE 'kotlin\("multiplatform"\)|org\.jetbrains\.kotlin\.multiplatform' --include='*.gradle.kts' --include='*.gradle' "${PROJECT_ROOT}" 2>/dev/null; then
             echo "type=kmp" >> $GITHUB_OUTPUT
           else
             echo "type=native" >> $GITHUB_OUTPUT
           fi
+          echo "Detected type: $(cat $GITHUB_OUTPUT | tail -1)"
 
       - name: Materialize missing xcconfig files
         run: |
@@ -201,27 +221,39 @@ jobs:
           channel: stable
           cache: true
 
+      # ✅ FIX 3: Flutter pub get sahi folder ch
       - name: Flutter pub get
         if: steps.detect.outputs.type == 'flutter'
-        run: flutter pub get
+        env:
+          PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
+        run: |
+          set -e
+          cd "$PROJECT_ROOT"
+          flutter pub get
 
-      # ========== ✅ SPM DISABLE (FlutterGeneratedPluginSwiftPackage fix) ==========
+      # ✅ FIX 4: SPM disable karo
       - name: Disable Swift Package Manager
         if: steps.detect.outputs.type == 'flutter'
-        run: flutter config --no-enable-swift-package-manager
-      # ==============================================================================
+        env:
+          PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
+        run: |
+          set -e
+          cd "$PROJECT_ROOT"
+          flutter config --no-enable-swift-package-manager || true
 
-      # ========== ✅ FLUTTER POD INSTALL ==========
+      # ✅ FIX 5: Flutter pod install sahi folder ch + SPM package remove
       - name: Flutter pod install
         if: steps.detect.outputs.type == 'flutter'
         env:
+          PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
           IOS_PATH: ${{ steps.params.outputs.ios_path }}
         run: |
           set -e
-          cd "$IOS_PATH"
+          cd "$PROJECT_ROOT"
           flutter precache --ios
+          cd "$IOS_PATH"
           pod install --repo-update
-      # ============================================
+          rm -rf Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage 2>/dev/null || true
 
       - name: Setup Node.js
         if: steps.detect.outputs.type == 'reactnative' || steps.detect.outputs.type == 'expo'
@@ -298,10 +330,12 @@ jobs:
           echo "DEVELOPMENT_TEAM=$TEAM_ID" >> $GITHUB_ENV
           echo "PROVISIONING_PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
 
+      # ✅ FIX 6: Build IPA sahi folder ch
       - name: Build IPA
         env:
           BUILD_ID: ${{ steps.params.outputs.build_id }}
           IOS_PATH: ${{ steps.params.outputs.ios_path }}
+          PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
           SCHEME: ${{ steps.params.outputs.scheme }}
           PROJECT_TYPE: ${{ steps.detect.outputs.type }}
           USE_SIGNING: ${{ steps.params.outputs.use_signing }}
@@ -336,7 +370,7 @@ jobs:
           fi
           DERIVED_DATA_PATH="${GITHUB_WORKSPACE}/DerivedData"
           if [ "$PROJECT_TYPE" = "flutter" ]; then
-            cd "$GITHUB_WORKSPACE"
+            cd "$GITHUB_WORKSPACE/$PROJECT_ROOT"
             if [ "$CONFIGURATION" = "Debug" ]; then
               echo "Building Flutter iOS Debug..."
               flutter build ios --debug --no-codesign
@@ -344,7 +378,7 @@ jobs:
               echo "Building Flutter iOS Release..."
               flutter build ios --release --no-codesign
             fi
-            cd "$IOS_PATH"
+            cd "$GITHUB_WORKSPACE/$IOS_PATH"
             if [ "$USE_SIGNING" = "true" ]; then
               ARCHIVE_CMD="xcodebuild"
               if [ -n "$WORKSPACE" ]; then
@@ -418,7 +452,7 @@ jobs:
             mv build/export/*.ipa "build/$BUILD_ID.ipa"
           else
             if [ "$PROJECT_TYPE" = "flutter" ]; then
-              APP_PATH=$(find "${GITHUB_WORKSPACE}/build/ios/iphoneos" -name "*.app" -type d | head -1)
+              APP_PATH=$(find "${GITHUB_WORKSPACE}/${PROJECT_ROOT}/build/ios/iphoneos" -name "*.app" -type d | head -1)
             else
               if [ -n "$WORKSPACE" ]; then
                 TARGET_FLAG=-workspace
