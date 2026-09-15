@@ -1,0 +1,20 @@
+{
+  "project": "SGHPS App",
+  "platform": "ios",
+  "github": {
+    "owner": "amritpalmar10-dot",
+    "repo": "sghps-backend"
+  },
+  "provider": "github",
+  "codemagic": {},
+  "bitrise": {},
+  "ios": {
+    "path": "ios/"
+  },
+  "flutter": {
+    "watch": {}
+  },
+  "reactNative": {},
+  "kmp": {},
+  "mobai": {}
+}
