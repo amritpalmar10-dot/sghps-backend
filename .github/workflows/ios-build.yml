@@ -222,36 +222,34 @@ jobs:
           cache: true
 
       # ✅ FIX 3: Flutter pub get sahi folder ch
-      - name: Flutter pub get
+            - name: Flutter pub get
         if: steps.detect.outputs.type == 'flutter'
         env:
           PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
         run: |
           set -e
-          cd "$PROJECT_ROOT"
+          cd "$GITHUB_WORKSPACE/$PROJECT_ROOT"
           flutter pub get
 
       # ✅ FIX 4: SPM disable karo
-      - name: Disable Swift Package Manager
+           - name: Disable Swift Package Manager
         if: steps.detect.outputs.type == 'flutter'
         env:
           PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
         run: |
           set -e
-          cd "$PROJECT_ROOT"
+          cd "$GITHUB_WORKSPACE/$PROJECT_ROOT"
           flutter config --no-enable-swift-package-manager || true
 
       # ✅ FIX 5: Flutter pod install sahi folder ch + SPM package remove
-      - name: Flutter pod install
+              - name: Flutter pod install
         if: steps.detect.outputs.type == 'flutter'
         env:
-          PROJECT_ROOT: ${{ steps.root.outputs.project_root }}
           IOS_PATH: ${{ steps.params.outputs.ios_path }}
         run: |
           set -e
-          cd "$PROJECT_ROOT"
+          cd "$GITHUB_WORKSPACE/$IOS_PATH"
           flutter precache --ios
-          cd "$IOS_PATH"
           pod install --repo-update
           rm -rf Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage 2>/dev/null || true
 
