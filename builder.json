@@ -10,9 +10,11 @@
   "bitrise": {},
   "ios": {
     "path": "mobile-app/ios/",
-    "scheme": "Runner"
+    "scheme": "Runner",
+    "configuration": "Debug"
   },
   "flutter": {
+    "version": "3.47.4",
     "watch": {}
   },
   "reactNative": {},
