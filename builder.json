@@ -9,9 +9,8 @@
   "codemagic": {},
   "bitrise": {},
   "ios": {
-    "path": "mobile-app/ios/",
-    "scheme": "Runner",
-    "configuration": "Debug"
+    "path": "ios",
+    "scheme": "Runner"
   },
   "flutter": {
     "version": "3.47.4",
