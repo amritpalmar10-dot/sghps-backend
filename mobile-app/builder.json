@@ -9,7 +9,7 @@
   "codemagic": {},
   "bitrise": {},
   "ios": {
-    "path": "ios/"
+    "path": "mobile-app/ios/"
   },
   "flutter": {
     "watch": {}
