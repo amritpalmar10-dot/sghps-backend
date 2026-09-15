@@ -205,7 +205,7 @@ jobs:
         if: steps.detect.outputs.type == 'flutter'
         run: flutter pub get
 
-      # ========== ✅ NAYA STEP: POD INSTALL ==========
+      # ========== NAYA STEP: FLUTTER POD INSTALL ==========
       - name: Flutter pod install
         if: steps.detect.outputs.type == 'flutter'
         env:
@@ -215,7 +215,7 @@ jobs:
           cd "$IOS_PATH"
           flutter precache --ios
           pod install --repo-update
-      # ===============================================
+      # =====================================================
 
       - name: Setup Node.js
         if: steps.detect.outputs.type == 'reactnative' || steps.detect.outputs.type == 'expo'
